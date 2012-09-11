@@ -1,0 +1,8 @@
+<?php
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper_');
+$routes = $this->routes;
+
+
+foreach( $routes as $route ) {
+    echo $this->routeHtmlHelper($route);
+}

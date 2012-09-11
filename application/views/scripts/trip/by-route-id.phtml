@@ -1,0 +1,14 @@
+<div  data-role="page">
+<div  data-role="header">...</div> 
+	<div  data-role="content">
+	
+<?php
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper_');
+
+foreach( $this->trips as $trip ) :
+    print $this->tripHtmlHelper( $trip );
+endforeach;
+?>
+    </div> 
+<div  data-role="footer">...</div> 
+</div>

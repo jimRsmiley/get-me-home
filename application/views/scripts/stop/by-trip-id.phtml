@@ -1,0 +1,6 @@
+<?php
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper_');
+
+foreach( $this->stops as $stop ) :
+    print $this->stopHtmlHelper($stop);
+endforeach;

@@ -1,0 +1,17 @@
+<?php
+Zend_Debug::dump( $this->stops );
+
+foreach( $this->stops as $stop ) :
+    
+    print $stop->getStopName();
+
+    foreach( $stop->getStopTimes() as $stopTime ) :
+
+        foreach( $stopTime->getRoutes() as $route ) :
+            print "";
+        endforeach;
+    endforeach;
+        
+    
+endforeach;
+?> 
