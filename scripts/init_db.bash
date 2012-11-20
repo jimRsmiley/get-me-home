@@ -1,5 +1,4 @@
 #!/bin/bash
 
-rm ../data/db/septa*
+php addRouteToDb.php "K"
 
-sqlite3 ../data/db/septa-data.db < initDb.sql

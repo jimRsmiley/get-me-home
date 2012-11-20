@@ -67,6 +67,14 @@ class Application_Model_StopTimeMapper {
         $stopTime->setTripId($row['trip_id']);
         return $stopTime;
     }
+    
+    public static function stopTimeComparison( $a, $b ) {
+        
+        $time1 = strtotime($a->getDepartureTime());
+        $time2 = strtotime($b->getDepartureTime());
+        
+        return ( $time1 < $time2);
+    }
 }
 
 ?>

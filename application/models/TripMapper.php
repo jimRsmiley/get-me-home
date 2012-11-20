@@ -75,6 +75,20 @@ class Application_Model_TripMapper {
         }
         return $trips;
     }
+    
+    public static function getTripFromRow( $row ) {
+        $trip = new GMH_Septa_Trip();
+        
+        $trip->setBlockId($row['block_id']);
+        $trip->setDirectionId($row['direction_id']);
+        $trip->setRouteId($row['route_id']);
+        $trip->setServiceId($row['service_id']);
+        $trip->setShapeId($row['shape_id']);
+        $trip->setTripHeadsign($row['trip_headsign']);
+        $trip->setTripId($row['trip_id']);
+        
+        return $trip;
+    }
 }
 
 ?>

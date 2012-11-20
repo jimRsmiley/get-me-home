@@ -1,4 +1,8 @@
 <?php
+Zend_Debug::dump( $this->layout() );
+exit;
+$this->layout()->j->addBasicPage('', 'This is the route', 'It\'s works!');
+$this->headTitle( "Routes" );
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper_');
 $routes = $this->routes;
 

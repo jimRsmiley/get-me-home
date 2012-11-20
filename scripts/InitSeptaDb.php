@@ -1,8 +1,10 @@
 <?php
-class InitSeptaDb {
-    
+class RouteAdder {
+    protected $septaDataDir = "../scripts/google_bus";
+
     protected $dbAdapter = null;
     protected $dbname = null;
+    
     function __construct() {
             $this->dbname = APPLICATION_PATH . "/../data/db/septa_data.db";
 
@@ -27,17 +29,7 @@ class InitSeptaDb {
         return $this->dbAdapter;
     }
     
-    function loadData() {
-   
-        $files = $this->getFileNames(APPLICATION_PATH . $dir);
-        
-        foreach( $files as $file ) {
-            print "processing $file\n";
-            $this->createTableFromFile( $file);
-        }
-    }
-    
-    function createTableFromFile( $file ) {
+    function createRouteFromFile( $route, $file ) {
         $tableName = basename( $file, ".txt" );
         print "Creating table $tableName from file $file\n";
 
@@ -61,6 +53,9 @@ class InitSeptaDb {
                     $data[$fields[$i]] = $elements[$i];
                 }
                 
+                print $data['route_short_name'];
+                exit;
+                if( $data['route_short_name'])
                 $sql = $this->getInsertRowSql( $tableName, $data );
 
                 $this->dbAdapter->getConnection()->exec($sql);
@@ -210,17 +205,10 @@ $application = new Zend_Application(
     APPLICATION_ENV,
     APPLICATION_PATH . '/configs/application.ini'
 );
+
 $application->bootstrap();
 
-$septaDataDir = "../scripts/google_bus";
+$routeAdder = new RouteAdder();
 
-$dbInit = new InitSeptaDb();
-
-$dbInit->deleteDbFile();
-
-$septaFiles = $dbInit->getFileNames($septaDataDir);
-
-foreach( $septaFiles as $file ) {
-    $dbInit->createTableFromFile($file);
-}
+$routeAdder->addRoute("K");
 ?>

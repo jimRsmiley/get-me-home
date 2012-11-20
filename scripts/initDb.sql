@@ -38,14 +38,17 @@ create table fare_attribute ( fare_id,price,currency_type,payment_method,
 create table fare_rule ( fare_id,origin_id,destination_id );
 .import ./google_bus/fare_rules.txt fare_rule
 
-create table route ( route_id,route_short_name,route_long_name,
+create table route ( route_id INTEGER PRIMARY KEY,route_short_name,route_long_name,
             route_type,route_color,route_text_color,route_url );
+
+CREATE INDEX route_index1 ON route( route_short_name );
+
 .import ./google_bus/routes.txt route
 
 create table shape ( shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence );
 .import ./google_bus/shapes.txt shape
 
-create table stop ( stop_id,stop_name,stop_lat,stop_lon,location_type,
+create table stop ( stop_id INTEGER PRIMARY KEY,stop_name,stop_lat,stop_lon,location_type,
             parent_station,zone_id );
 .import ./google_bus/stops.txt stop
 
@@ -69,6 +72,9 @@ CREATE TEMPORARY TABLE stop_time_backup (stop_time_id INTEGER PRIMARY KEY AUTOIN
 INSERT INTO stop_time_backup ( trip_id,arrival_time,departure_time, stop_id,stop_sequence ) SELECT trip_id,arrival_time,departure_time, stop_id,stop_sequence FROM stop_time;
 DROP TABLE stop_time;
 CREATE TABLE stop_time (stop_time_id INTEGER PRIMARY KEY AUTOINCREMENT,trip_id,arrival_time,departure_time, stop_id,stop_sequence);
+
+CREATE INDEX stop_time_index1 ON stop_time (departure_time);
+
 INSERT INTO stop_time SELECT stop_time_id,trip_id,arrival_time,departure_time, stop_id,stop_sequence FROM stop_time_backup;
 DROP TABLE stop_time_backup;
 COMMIT;
@@ -94,5 +100,3 @@ create table trip ( route_id,service_id,trip_id INTEGER PRIMARY KEY,trip_headsig
 create table transfer ( from_stop_id,to_stop_id,
             transfer_type,min_transfer_time );
 .import ./google_bus/transfers.txt transfer
-
-.schema

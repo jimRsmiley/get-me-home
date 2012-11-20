@@ -7,6 +7,14 @@
  */
 class Application_View_Helper_TripHtmlHelper extends Zend_View_Helper_Abstract
 {
+    
+    public $view;
+ 
+    public function setView(Zend_View_Interface $view)
+    {
+        $this->view = $view;
+    }
+    
     public function tripHtmlHelper( GMH_Septa_Trip $trip )
     {
 $html = <<< heredoc

@@ -1,17 +1,34 @@
 <?php
-Zend_Debug::dump( $this->stops );
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper_');
+$this->headTitle( "Get Me Home" );
 
-foreach( $this->stops as $stop ) :
-    
-    print $stop->getStopName();
-
-    foreach( $stop->getStopTimes() as $stopTime ) :
-
-        foreach( $stopTime->getRoutes() as $route ) :
-            print "";
-        endforeach;
-    endforeach;
-        
-    
-endforeach;
+$stopName = $this->response->getStopName();
+$directionId = $this->response->getDirectionId();
 ?> 
+
+    <div class="row">
+        
+        <span>From:</span>
+        
+        <span>
+            <?=$this->timeViewHelper( $this->response->getFromTime() )?>
+        </span>
+        
+    </div>
+
+    <div>
+        
+        <div>&nbsp;</div> 
+        
+        <?php foreach( $this->response->getStopTimes() as $stopTime ) : ?>
+        
+           <div class="row">
+               <?php echo $this->timeViewHelper($stopTime->getDepartureTime() ); ?>
+               &nbsp;-&nbsp;
+               <?php foreach( $this->response->getRoutesByStopTime( $stopTime->getDepartureTime() )  as $route ) : ?>
+                    <span><?=$route->getRouteShortName()?></span>
+               <?php endforeach; ?>
+           </div>
+        <?php endforeach; ?>
+        
+    </div>

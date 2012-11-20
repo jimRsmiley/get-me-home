@@ -77,6 +77,19 @@ class Application_Model_RouteMapper {
             return $routeShortName1 > $routeShortName2;
         }
     }
+    
+    public static function getRouteFromRow( $row ) {
+        $route = new GMH_Septa_Route();
+        $route->setRouteId( $row['route_id'] );
+        $route->setRouteColor( $row['route_color']);
+        $route->setRouteLongName( $row['route_long_name'] );
+        $route->setRouteShortName( $row['route_short_name'] );
+        $route->setRouteTextColor( $row['route_text_color'] );
+        $route->setRouteType( $row['route_type'] );
+        $route->setRouteUrl( $row['route_url'] );
+        
+        return $route;
+    }
 }
 
 ?>

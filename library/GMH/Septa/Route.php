@@ -6,6 +6,7 @@
  * @author Jim Smiley twitter:@jimRsmiley
  */
 class GMH_Septa_Route extends GMH_BaseObject {
+    
     protected $route_id;
     protected $route_short_name;
     protected $route_long_name;
@@ -14,11 +15,13 @@ class GMH_Septa_Route extends GMH_BaseObject {
     protected $route_text_color;
     protected $route_url;
 
+    protected $trips;
+    
     public function __construct(array $options = null)
     {
         if (is_array($options)) {
             $this->setOptions($options);
-        }
+        } 
     }
  
     public function __set($name, $value)
@@ -39,6 +42,50 @@ class GMH_Septa_Route extends GMH_BaseObject {
         return $this->$method();
     }
  
+    public function getTrips() {
+        return $this->trips;
+    }
+    
+    public function getTripById( $tripId ) {
+        
+        if( !is_array( $this->trips ) ) {
+            return null;
+        }
+        
+        foreach( $this->trips as $trip ) {
+            
+            if( $trip->getTripId() == $tripId ) {
+                return $trip;
+            }
+        }
+    }
+
+    public function getTripByStopTime( $stopTimeString, $directionId ) {
+        
+        if( empty($stopTimeString ) ) {
+            throw new InvalidArgumentException("stopTimeString cannot be empty");
+        }
+        
+        // using null because directionId may be 0
+        if( $directionId == NULL ) {
+            throw new InvalidArgumentException("directionId may not be null");
+        }
+        
+        foreach( $this->trips as $trip ) {
+            $testDirectionId = $trip->getDirectionId();
+            
+            foreach( $trip->getStopTimes() as $stopTime ) {
+                
+                if( $stopTime->getDepartureTime() == $stopTimeString 
+                        && $directionId == $testDirectionId ) {
+                    
+                    return $trip;
+                }
+            }
+        }
+        return null;
+    }
+    
     public function setOptions(array $options)
     {
         $methods = get_class_methods($this);
@@ -83,6 +130,15 @@ class GMH_Septa_Route extends GMH_BaseObject {
 	public function setRouteType($routeType){
 		$this->route_type = $routeType;
 	}
+    
+    public function addTrip( GMH_Septa_Trip $trip ) {
+        
+        if( !is_array($this->trips) ) {
+            $this->trips = array();
+        }
+        
+        array_push( $this->trips, $trip );
+    }
 
 	public function getRouteColor(){
 		return $this->route_color;

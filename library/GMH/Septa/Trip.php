@@ -14,6 +14,8 @@ class GMH_Septa_Trip extends GMH_BaseObject {
 	private $directionId = null;
 	private $shapeId = null;
     
+    protected $stopTimes = null;
+    
    public function __construct(array $options = null)
     {
         if (is_array($options)) {
@@ -83,6 +85,15 @@ class GMH_Septa_Trip extends GMH_BaseObject {
 	public function setTripHeadsign($tripHeadsign){
 		$this->tripHeadsign = $tripHeadsign;
 	}
+    
+    public function addStopTime( GMH_Septa_StopTime $stopTime ) {
+        
+        if( !is_array($this->stopTimes) ) {
+            $this->stopTimes = array();
+        }
+        
+        array_push( $this->stopTimes, $stopTime );
+    }
 
 	public function getBlockId(){
 		return $this->blockId;
@@ -106,10 +117,6 @@ class GMH_Septa_Trip extends GMH_BaseObject {
 
 	public function setShapeId($shapeId){
 		$this->shapeId = $shapeId;
-	}
-    
-    public function setStopTimes( $stopTimes ) {
-        $this->stopTimes = $stopTimes;
     }
     
     public function getStopTimes() {

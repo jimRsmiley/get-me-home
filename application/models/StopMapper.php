@@ -90,8 +90,6 @@ class Application_Model_StopMapper {
         
         return $stop;
     }
-    
-
 }
 
 ?>
