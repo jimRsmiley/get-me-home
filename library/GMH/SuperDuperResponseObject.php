@@ -7,9 +7,15 @@
  */
 class GMH_SuperDuperResponseObject {
     
+    // an array of route objects
     protected $routes;
+    
+    // the date we start looking for departure times
     protected $fromTime;
+    
+    // the time we stop looking for departure times
     protected $toTime;
+    
     protected $directionId;
     
     // the stop name we're looking for departure times from
@@ -97,10 +103,10 @@ class GMH_SuperDuperResponseObject {
     }
     
     /**
-     * get all the unique stop times from the protected array routes
+     * get all the unique stop time strings from the protected array routes
      * @return array an array of stop times
      */
-    public function getStopTimes() {
+    public function getStopTimeStrings() {
         
         $stopTimes = array();
         
@@ -110,14 +116,15 @@ class GMH_SuperDuperResponseObject {
                 
                 foreach( $trip->getStopTimes() as $stopTime ) {
                     
-                    if( !in_array($stopTime, $stopTimes) ) {
-                        array_push( $stopTimes, $stopTime );
+                    if( !in_array($stopTime->getDepartureTime(), $stopTimes ) ) {
+                        array_push( $stopTimes, $stopTime->getDepartureTime() );
                     }
                 }
             }
         }
-        
-        asort($stopTimes);
+
+
+        sort($stopTimes);
         return $stopTimes;
     }
     

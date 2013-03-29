@@ -1,0 +1,24 @@
+<?php
+/*
+ * calendar/index.phtml
+ */
+$this->headLink()->prependStylesheet("/css/calendar.css");
+$this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper_');
+?>
+
+<?php foreach( $this->calendars as $calendar ) : ?>
+<div class="calendar">
+    <div class="calendar-type">
+        service: <?= $this->calendarTypeViewHelper( $calendar->getCalendarType() ) ?>
+    </div>
+
+    <div class="calendar-start-date">
+        valid from: <?= $this->dateHelper( $calendar->getStartDate() ) ?>
+    </div>
+    
+    <div class="calendar-end-date">
+        valid to: <?= $this->dateHelper( $calendar->getEndDate() ) ?>
+    </div>
+</div>
+
+<?php endforeach; ?>

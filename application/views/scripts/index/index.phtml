@@ -1,14 +1,19 @@
 <?php
+/*
+ *  index/index.phtml
+ */
+
+$this->headLink()->prependStylesheet("/css/index.css");
 $this->addHelperPath(APPLICATION_PATH . '/views/helpers', 'Application_View_Helper_');
 $this->headTitle( "Get Me Home" );
 
-$stopName = $this->response->getStopName();
-$directionId = $this->response->getDirectionId();
 ?> 
 
     <div class="row">
         
-        <span>From:</span>
+        <span>
+            From:
+        </span>
         
         <span>
             <?=$this->timeViewHelper( $this->response->getFromTime() )?>
@@ -18,17 +23,27 @@ $directionId = $this->response->getDirectionId();
 
     <div>
         
-        <div>&nbsp;</div> 
-        
-        <?php foreach( $this->response->getStopTimes() as $stopTime ) : ?>
+        <?php foreach( $this->response->getStopTimeStrings() as $stopTime ) : ?>
         
            <div class="row">
-               <?php echo $this->timeViewHelper($stopTime->getDepartureTime() ); ?>
-               &nbsp;-&nbsp;
-               <?php foreach( $this->response->getRoutesByStopTime( $stopTime->getDepartureTime() )  as $route ) : ?>
-                    <span><?=$route->getRouteShortName()?></span>
-               <?php endforeach; ?>
+               <div class="time">
+                <?php echo $this->timeViewHelper($stopTime ); ?>
+               </div>
+               
+               <div class="buses">
+                    <?php foreach( $this->response->getRoutesByStopTime( $stopTime )  as $route ) : ?>
+                         <span class="bus">
+                             <a href="<?php echo $this->nextSeptaUrlHelper( $route->getRouteShortName(), $this->response->getDirectionId(), "220")?>"
+                                target="_blank">
+                                 <?=$route->getRouteShortName()?>
+                             </a>
+                         </span>
+                    <?php endforeach; ?>
+               </div>
+               <div style="clear:both;"></div>
            </div>
         <?php endforeach; ?>
         
     </div>
+
+

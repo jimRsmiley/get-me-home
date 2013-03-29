@@ -1,27 +1,40 @@
  <?php
-$this->headLink()->appendStylesheet("/css/skeleton/base.css");
-$this->headLink()->appendStylesheet("/css/skeleton/layout.css");
-$this->headLink()->appendStylesheet("/css/skeleton/skeleton.css");
- 
+$this->headLink()->appendStylesheet("/css/iphone_1.css");
 $this->headLink()->appendStylesheet("/css/style.css");
 $this->headLink()->appendStylesheet("/css/debug.css");
  
 ?>
+<!DOCTYPE HTML>
  <html> 
 
     <head> 
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no" >
+        
         <?php echo $this->headTitle()."\n"; ?>
         <?php echo $this->headLink()."\n"; ?>
         <?php echo $this->headScript()."\n"; ?>
+        
     </head> 
     
     <body>
         
         <div class="container">
-            <div class="ten columns greyskie offset-by-six">
+            
+            <div class="header">
+                <img src="/images/header.jpg" alt="Get Me Home" >
+            </div>
+            
+            <div class="content">
                 <?php echo $this->layout()->content; ?>
             </div>
+            
+            <div class="footer">
+                data valid until: <?= $this->dateHelper( $this->calendar->validTill() ) ?>
+            </div>
+            
         </div>
+
     </body>
-    
  </html>
